@@ -79,6 +79,14 @@ const TodosApp = {
       this.enteredTodoText = todo.text;
       // This will load the text on todo into the input field when hitting edit button.
     },
+
+    deleteTodo(todoId) {
+      this.todos = this.todos.filter(function (todoItem) {
+        return todoItem.id !== todoId;
+        // This will keep the items which the todoId does not fit the item's id
+        // and drop the item which the todoId does fit the item's id
+      });
+    },
   },
 };
 

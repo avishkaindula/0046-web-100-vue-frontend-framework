@@ -25,7 +25,9 @@
         </form>
       </section>
       <section id="todos">
-        <p v-if="todos.length === 0">No todos added yet - maybe start adding some?</p>
+        <p v-if="todos.length === 0">
+          No todos added yet - maybe start adding some?
+        </p>
         <ul v-else id="todos-list">
           <!-- the element we set v-else should be a direct neighbor of the element which we added v-if -->
           <li v-for="todo in todos">
@@ -35,7 +37,7 @@
             <p>{{ todo.text }}</p>
             <div>
               <button @click="startEditTodo(todo.id)">Edit</button>
-              <button>Delete</button>
+              <button @click="deleteTodo(todo.id)">Delete</button>
             </div>
           </li>
         </ul>
