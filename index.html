@@ -34,7 +34,7 @@
             <!-- variable to access certain keys like text: which sits inside the todos array. -->
             <p>{{ todo.text }}</p>
             <div>
-              <button>Edit</button>
+              <button @click="startEditTodo(todo.id)">Edit</button>
               <button>Delete</button>
             </div>
           </li>

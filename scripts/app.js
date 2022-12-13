@@ -5,6 +5,7 @@ const TodosApp = {
       // newTodo: "Learn Vue.js!",
       todos: [],
       enteredTodoText: "",
+      editedTodoId: null,
     };
   },
   methods: {
@@ -27,16 +28,56 @@ const TodosApp = {
       // this.enteredTodoText = "";
       // This will clear the input field after the form is submitted.
 
-      const newTodo = {
-        text: this.enteredTodoText,
-        id: new Date().toISOString(),
-      };
-      this.todos.push(newTodo);
-      // So now when saveTodo is triggered, a newTodo object will be added to this todos: [] array.
-      //  [ { text: "text entered in the input field" , id: 2022-12-13T14:48:00.000Z } ]
-      // We've accessed this text: key when we've wrote { todo.text }} in index.html
+      if (this.editedTodoId) {
+        // Updating an existing todo
+        const todoId = this.editedTodoId;
+
+        const todoIndex = this.todos.findIndex(function (todoItem) {
+          // return todoItem.id === this.editedTodoId;
+          // if we use this. in a function like this, that this. won't
+          // refer to the data: method. Instead that this. is referred
+          // to this anonymous function. So we need to create todoId
+          // constant outside of this anonymous function and and access
+          // the data: method. Then we can assign that constant to
+          // todoItem.id like following.
+          return todoItem.id === todoId;
+        });
+        // findIndex() will return a index of the item we're looking for in the array.
+
+        const updatedTodoItem = {
+          id: this.todos[todoIndex].id,
+          text: this.enteredTodoText,
+          // This will update the text inside todo with the newly inserted text in the input field
+          // when we hit the save button.
+        };
+
+        this.todos[todoIndex] = updatedTodoItem;
+        // This will assign the updated object to the todos array.
+        this.editedTodoId = null;
+      } else {
+        // Creating new todo
+        const newTodo = {
+          text: this.enteredTodoText,
+          id: new Date().toISOString(),
+        };
+        this.todos.push(newTodo);
+        // So now when saveTodo is triggered, a newTodo object will be added to this todos: [] array.
+        //  [ { text: "text entered in the input field" , id: 2022-12-13T14:48:00.000Z } ]
+        // We've accessed this text: key when we've wrote { todo.text }} in index.html
+      }
 
       this.enteredTodoText = "";
+    },
+
+    startEditTodo(todoId) {
+      // We need to pass todo.id from the Edit button of index.html into this todoId parameter.
+      this.editedTodoId = todoId;
+      const todo = this.todos.find(function (todoItem) {
+        return todoItem.id === todoId;
+        // This will set the id of todoItem by the value of todoId
+      });
+      this.enteredTodoText = todo.text;
+      // This will load the text on todo into the input field when hitting edit button.
     },
   },
 };
