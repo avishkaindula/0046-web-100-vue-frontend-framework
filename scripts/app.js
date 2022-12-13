@@ -55,6 +55,28 @@ const TodosApp = {
         this.todos[todoIndex] = updatedTodoItem;
         // This will assign the updated object to the todos array.
         this.editedTodoId = null;
+
+        let response;
+
+        try {
+          response = await fetch("http://localhost:3000/todos/" + todoId, {
+            method: "PATCH",
+            body: JSON.stringify({
+              newText: this.enteredTodoText,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+        } catch (error) {
+          alert("Something went wrong!");
+          return;
+        }
+
+        if (!response.ok) {
+          alert("Something went wrong!");
+          return;
+        }
       } else {
         // Creating new todo
         // The following code is copied from the createTodo() function of todos.js
@@ -107,12 +129,28 @@ const TodosApp = {
       // This will load the text on todo into the input field when hitting edit button.
     },
 
-    deleteTodo(todoId) {
+    async deleteTodo(todoId) {
       this.todos = this.todos.filter(function (todoItem) {
         return todoItem.id !== todoId;
         // This will keep the items which the todoId does not fit the item's id
         // and drop the item which the todoId does fit the item's id
       });
+
+      let response;
+
+      try {
+        response = await fetch("http://localhost:3000/todos/" + todoId, {
+          method: "DELETE",
+        });
+      } catch (error) {
+        alert("Something went wrong!");
+        return;
+      }
+
+      if (!response.ok) {
+        alert("Something went wrong!");
+        return;
+      }
     },
   },
   async created() {
