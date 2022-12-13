@@ -3,6 +3,7 @@ const TodosApp = {
   data() {
     return {
       // newTodo: "Learn Vue.js!",
+      isLoading: false,
       todos: [],
       enteredTodoText: "",
       editedTodoId: null,
@@ -56,6 +57,7 @@ const TodosApp = {
         this.editedTodoId = null;
       } else {
         // Creating new todo
+        // The following code is copied from the createTodo() function of todos.js
         let response;
 
         try {
@@ -112,6 +114,27 @@ const TodosApp = {
         // and drop the item which the todoId does fit the item's id
       });
     },
+  },
+  async created() {
+    let response;
+    this.isLoading = true;
+    try {
+      response = await fetch("http://localhost:3000/todos");
+    } catch (error) {
+      alert("Something went wrong!");
+      this.isLoading = false;
+      return;
+    }
+
+    this.isLoading = false;
+
+    if (!response.ok) {
+      alert("Something went wrong!");
+      return;
+    }
+
+    const responseData = await response.json();
+    this.todos = responseData.todos;
   },
 };
 

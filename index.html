@@ -25,9 +25,10 @@
         </form>
       </section>
       <section id="todos">
-        <p v-if="todos.length === 0">
+        <p v-if="todos.length === 0 && !isLoading">
           No todos added yet - maybe start adding some?
         </p>
+        <p v-else-if="isLoading">Loading...</p>
         <ul v-else id="todos-list">
           <!-- the element we set v-else should be a direct neighbor of the element which we added v-if -->
           <li v-for="todo in todos">
