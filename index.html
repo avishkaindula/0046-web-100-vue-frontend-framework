@@ -15,8 +15,8 @@
       <p>Manage your (daily) todos with ease!</p>
     </header>
     <main id="todos-app">
-      <h2>{{ newTodo }}</h2>
-      <p>{{ newTodo }}</p>
+      <!-- <h2>{{ newTodo }}</h2>
+      <p>{{ newTodo }}</p> -->
       <section id="todo-management">
         <form @submit="saveTodo">
           <label for="text">Todo text</label>
@@ -25,7 +25,18 @@
         </form>
       </section>
       <section id="todos">
-        <ul id="todos-list"></ul>
+        <ul id="todos-list">
+          <li v-for="todo in todos">
+            <!-- todos is the data key we've written for the array in app.js -->
+            <!-- todo is a variable we create right now and we can use that -->
+            <!-- variable to access certain keys like text: which sits inside the todos array. -->
+            <p>{{ todo.text }}</p>
+            <div>
+              <button>Edit</button>
+              <button>Delete</button>
+            </div>
+          </li>
+        </ul>
       </section>
     </main>
   </body>
